@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard IDFM – Vincennes / Joinville (v3)</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="fit">
+  <header class="topbar">
+    <div class="brand">
+      <div class="title">Dashboard IDFM – Vincennes / Joinville</div>
+      <div class="subtitle">Hippodrome de Paris‑Vincennes — Données temps réel Île‑de‑France Mobilités</div>
+    </div>
+    <div class="header-right">
+      <div id="date"></div>
+      <div id="time" class="mono"></div>
+      <div class="weather" id="weather" title="">
+        <span id="weatherIcon" aria-hidden="true"></span>
+        <strong id="weatherTemp">--°C</strong>
+      </div>
+      <div id="saint" class="saint"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Ligne 1 -->
+    <section class="panel"><h2>Joinville — RER A</h2>
+      <div class="board" id="rerA-board"></div>
+      <div class="traffic-msg" id="rerA-traffic"></div>
+    </section>
+
+    <section class="panel"><h2>Hippodrome — Bus 77</h2>
+      <div class="board" id="bus77-board"></div>
+      <div class="traffic-msg" id="bus77-traffic"></div>
+    </section>
+
+    <section class="panel"><h2>École du Breuil — Bus 201</h2>
+      <div class="board" id="bus201-board"></div>
+      <div class="traffic-msg" id="bus201-traffic"></div>
+    </section>
+
+    <!-- Ligne 2 -->
+    <section class="panel" style="grid-column:1 / span 2; grid-row:2;">
+      <h2>Joinville — Tous les bus</h2>
+      <div class="board joinville-two-cols" id="joinville-all"></div>
+    </section>
+
+    <section class="panel sytadin-panel" style="grid-column:3; grid-row:2 / span 2;">
+      <h2>Carte trafic — Sytadin</h2>
+      <div id="sytadin-indicator" class="traffic-indicator">Lecture des conditions…</div>
+      <iframe id="sytadin" class="sytadin-frame" title="Carte Sytadin" src="https://www.sytadin.fr/frame/cartographie.jsp.html?largeur=596" loading="lazy"></iframe>
+    </section>
+
+    <!-- Ligne 3 -->
+    <section class="panel"><h2>Vélib’ — Hippodrome (12163)</h2><div class="board velib" id="velib1"></div></section>
+    <section class="panel"><h2>Vélib’ — École du Breuil (12128)</h2><div class="board velib" id="velib2"></div></section>
+
+    <!-- Ligne 4 -->
+    <section class="panel"><h2>Trafic routier</h2><div class="board" id="road"></div></section>
+    <section class="panel" style="grid-column:2 / span 2;"><h2>Flash News — France Info</h2><div class="board" id="news"></div></section>
+
+    <!-- Ligne 5-6 -->
+    <section class="panel" style="grid-column:1; grid-row:5 / span 2;"><h2>Courses — Vincennes</h2><div class="board tickets" id="racesVincennes"></div></section>
+    <section class="panel" style="grid-column:2; grid-row:5 / span 2;"><h2>Courses — Enghien</h2><div class="board tickets" id="racesEnghien"></div></section>
+  </main>
+
+  <footer class="footer">
+    <span>© Hippodrome de Paris‑Vincennes • Build 2025-10-09 12:10</span>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+<script>
+function fit(){const r=document.getElementById('fit');const W=r.offsetWidth,H=r.offsetHeight;const w=window.innerWidth,h=window.innerHeight;const s=Math.min(w/W,h/H);r.style.transform=`scale(${s})`}
+window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>
