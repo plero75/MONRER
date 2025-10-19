@@ -1,4 +1,22 @@
 /* ===== Base ===== */
+.panel{background:#0f1117;border:1px solid #262a33;border-radius:12px;padding:10px}
+.panel-title{font-weight:700;margin-bottom:8px}
+.dir-block{background:#12131a;border:1px solid #262a33;border-radius:10px;margin:8px 0;padding:10px}
+.dir-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dir-dot{width:10px;height:10px;border-radius:50%;background:#7dcfff}
+.dir-title{font-weight:600}.dir-count{margin-left:auto;opacity:.7}
+.dir-list{display:grid;gap:8px}
+.visit{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.visit-time{font-variant-numeric:tabular-nums}
+.velib-row{padding:6px 8px;border-radius:8px;margin:6px 0;background:#141722;border:1px solid #232838}
+.velib-row.ok{border-color:#2f7}
+.velib-row.warn{border-color:#fc3}
+.velib-row.err{border-color:#f66}
+.news-title{font-weight:700;margin-bottom:6px}
+.news-desc{opacity:.9}
+.alert-line{padding:6px 8px;border-radius:6px;margin:6px 0;background:#2a1f1f;border:1px solid #6a2b2b}
+.news-fade-in{animation:.4s ease both fadein}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 html,body{margin:0;padding:0;height:100%;background:#e9eef8;color:#001858;font-family:Segoe UI,Arial,Helvetica,sans-serif;overflow:hidden}
 #fit{width:1920px;height:1080px;transform-origin:top left}
 .mono{font-variant-numeric:tabular-nums}
