@@ -1,0 +1,1 @@
+Déploiement RécréDays Vincennes déclenché après connexion du projet Vercel au dépôt MONRER.
