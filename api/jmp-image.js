@@ -73,61 +73,80 @@ function collectImages(html, pageUrl, expectedTitle) {
   }
 
   const mainSegment = h1Index >= 0
-    ? html.slice(h1Index, endIndex > h1Index ? endIndex : Math.min(html.length, h1Index + 18000))
+    ? html.slice(h1Index, endIndex > h1Index ? endIndex : Math.min(html.length, h1Index + 22000))
     : html;
 
   const pageTitleMatch = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
   const pageTitle = normalize((pageTitleMatch && pageTitleMatch[1] || '').replace(/<[^>]+>/g, ' '));
   const wantedTokens = [...new Set([...tokens(expectedTitle), ...tokens(pageTitle)])];
   const candidates = [];
+  const seen = new Set();
 
-  function scan(segment, inMain) {
+  function addCandidate(url, inMain, meta = {}) {
+    if (!url || seen.has(url) || !/jmprestations\.com\/wp-content\/uploads\//i.test(url)) return;
+    const filename = normalize(url.split('/').pop().split('?')[0]);
+    const alt = normalize(meta.alt || '');
+    const classes = normalize(meta.classes || '');
+    const combined = `${filename} ${alt} ${classes}`;
+    if (rejectedWords.some(word => combined.includes(normalize(word)))) return;
+
+    let score = inMain ? 100 : 0;
+    if (wantedTokens.some(word => alt.includes(word))) score += 90;
+    if (wantedTokens.some(word => filename.includes(word))) score += 70;
+    if (/wp post image|attachment full|portfolio|single/.test(classes)) score += 35;
+    if (/detour|recreedays|gonflable|parcours|manege|tarzan|ninja|color|bumpers|basket|lego|cube|pitchoune|boule|arcade|baby|virtuelle/.test(filename)) score += 25;
+    if (meta.width >= 600 || meta.height >= 400) score += 20;
+    if (meta.width > 0 && meta.height > 0 && meta.width < 220 && meta.height < 220) score -= 100;
+
+    seen.add(url);
+    candidates.push({ url, score });
+  }
+
+  function scanImageTags(segment, inMain) {
     const tags = segment.match(/<img\b[^>]*>/gi) || [];
     for (const tag of tags) {
       const srcset = attr(tag, 'data-srcset') || attr(tag, 'srcset');
       const rawUrl = attr(tag, 'data-lazy-src') || attr(tag, 'data-src') || attr(tag, 'data-original') || bestFromSrcset(srcset) || attr(tag, 'src');
       const url = absoluteUrl(rawUrl, pageUrl);
-      if (!url || !/jmprestations\.com\/wp-content\/uploads\//i.test(url)) continue;
-
-      const filename = normalize(url.split('/').pop().split('?')[0]);
-      const alt = normalize(attr(tag, 'alt') || attr(tag, 'title'));
-      const classes = normalize(attr(tag, 'class'));
-      const combined = `${filename} ${alt} ${classes}`;
-      if (rejectedWords.some(word => combined.includes(normalize(word)))) continue;
-
-      let score = inMain ? 100 : 0;
-      if (wantedTokens.some(word => alt.includes(word))) score += 80;
-      if (wantedTokens.some(word => filename.includes(word))) score += 65;
-      if (/wp post image|attachment full|portfolio|single/.test(classes)) score += 30;
-      if (/detour|recreedays|gonflable|parcours|manege|tarzan|ninja|color|bumpers|basket|lego|cube|pitchoune/.test(filename)) score += 20;
-
-      const width = Number(attr(tag, 'width') || 0);
-      const height = Number(attr(tag, 'height') || 0);
-      if (width >= 600 || height >= 400) score += 20;
-      if (width > 0 && height > 0 && width < 220 && height < 220) score -= 100;
-
-      candidates.push({ url, score });
+      addCandidate(url, inMain, {
+        alt: attr(tag, 'alt') || attr(tag, 'title'),
+        classes: attr(tag, 'class'),
+        width: Number(attr(tag, 'width') || 0),
+        height: Number(attr(tag, 'height') || 0)
+      });
     }
   }
 
-  scan(mainSegment, true);
-  if (!candidates.length) scan(html, false);
+  function scanRawUploadUrls(segment, inMain) {
+    const matches = segment.match(/https:\/\/jmprestations\.com\/wp-content\/uploads\/[^\"'<>\s]+/gi) || [];
+    for (const raw of matches) {
+      const cleaned = decode(raw.replace(/\\u002F/g, '/').replace(/\\\//g, '/'));
+      addCandidate(cleaned, inMain);
+    }
+  }
+
+  scanImageTags(mainSegment, true);
+  scanRawUploadUrls(mainSegment, true);
+  if (!candidates.length) {
+    scanImageTags(html, false);
+    scanRawUploadUrls(html, false);
+  }
 
   candidates.sort((a, b) => b.score - a.score);
   return candidates.length ? candidates[0].url : '';
 }
 
 async function resolvePage(product) {
-  let response = await fetch(product.url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/2.0)' } });
+  let response = await fetch(product.url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/3.0)' } });
   if (response.ok) return { url: product.url, html: await response.text() };
 
   const searchUrl = `https://jmprestations.com/wp-json/wp/v2/search?search=${encodeURIComponent(product.title)}&per_page=10`;
-  const searchResponse = await fetch(searchUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/2.0)' } });
+  const searchResponse = await fetch(searchUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/3.0)' } });
   if (!searchResponse.ok) return null;
   const results = await searchResponse.json();
   const found = Array.isArray(results) ? results.find(item => item && item.url) : null;
   if (!found) return null;
-  response = await fetch(found.url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/2.0)' } });
+  response = await fetch(found.url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/3.0)' } });
   return response.ok ? { url: found.url, html: await response.text() } : null;
 }
 
@@ -145,11 +164,11 @@ export default async function handler(req, res) {
       const page = await resolvePage(product);
       const imageUrl = page ? collectImages(page.html, page.url, product.title) : '';
       if (imageUrl) {
-        const imageResponse = await fetch(imageUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/2.0)' } });
+        const imageResponse = await fetch(imageUrl, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; RecreDaysVincennes/3.0)' } });
         if (imageResponse.ok) {
           const buffer = Buffer.from(await imageResponse.arrayBuffer());
           res.setHeader('Content-Type', imageResponse.headers.get('content-type') || 'image/jpeg');
-          res.setHeader('Cache-Control', 'public, s-maxage=21600, stale-while-revalidate=86400');
+          res.setHeader('Cache-Control', 'no-store');
           res.status(200).send(buffer);
           return;
         }
