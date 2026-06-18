@@ -1,0 +1,1 @@
+function renderBudget(){let x=totals();document.getElementById('setf').textContent=euro(x[0]);document.getElementById('pg').textContent=euro(x[1]);document.getElementById('total').textContent=euro(x[0]+x[1])}
