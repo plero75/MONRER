@@ -1,1 +1,0 @@
-window.RD={days:{hors:['Hors courses',11],semi:['Semi-nocturnes',2],nocturne:['Nocturnes',2],diurne:['Diurnes courses',1],montage:['Montage / démontage',2]},types:{forfait_jour:'Forfait jour',jour_personne:'Jour / personne',horaire:'Horaire',forfait_global:'Forfait global'}};
