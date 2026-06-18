@@ -1,0 +1,1 @@
+RD_RATES.push(['mqt','SETF','Aménagement','Moquette','forfait_global',1500]);RD_RATES.push(['chauf','SETF','Technique site','Chauffage','forfait_global',3000]);RD_RATES.push(['comp','Playground','Communication','Communication Playground','forfait_global',15000]);
