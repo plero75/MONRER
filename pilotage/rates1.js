@@ -1,0 +1,1 @@
+window.RD_RATES=[];RD_RATES.push(['resp','Playground','Playground','Resp. opérationnel','forfait_jour',500]);RD_RATES.push(['chef','Playground','Playground','Chef d’équipe','forfait_jour',300]);RD_RATES.push(['staff','Playground','Playground','Staff animation','horaire',24]);
