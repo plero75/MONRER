@@ -1,0 +1,1 @@
+function totals(){let a=0,b=0;RD_TASKS.forEach(t=>{let r=R(t[1]),c=C(t);if(r&&r[1]==='SETF')a+=c;if(r&&r[1]==='Playground')b+=c});return[a,b]}
