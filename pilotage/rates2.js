@@ -1,0 +1,1 @@
+RD_RATES.push(['caisse','Playground','Playground','Caisse / contrôle / accueil','forfait_jour',300]);RD_RATES.push(['roads','Playground','Roads','Monteurs / roads','jour_personne',280]);RD_RATES.push(['herve','Playground','Hervé Pierre','Coordination technique','forfait_global',1200]);
