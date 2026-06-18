@@ -1,0 +1,1 @@
+function exportCsv(){let rows=RD_TASKS.map(t=>[t[0],t[2],R(t[1])?.[1]||'',C(t)]);let csv='Typologie;Poste;Gestion;Montant\n'+rows.map(r=>r.join(';')).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='RecreDays_budget.csv';a.click()}
