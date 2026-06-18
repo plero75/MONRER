@@ -1,0 +1,1 @@
+window.RD_TASKS=[];RD_TASKS.push(['hors','resp','Responsable','09:00','19:00',1]);
