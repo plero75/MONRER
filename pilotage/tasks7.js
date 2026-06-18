@@ -1,0 +1,1 @@
+['herve','coms','comp','trh','sign','mqt','chauf'].forEach(id=>RD_TASKS.push(['global',id,'Forfait '+id,'10:00','10:00',1,1]));
