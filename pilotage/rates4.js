@@ -1,0 +1,1 @@
+RD_RATES.push(['ssiap','SETF','Sécurité','Chef / SSIAP','horaire',36]);RD_RATES.push(['onet','SETF','ONET','Nettoyage journalier','forfait_jour',1000]);RD_RATES.push(['coms','SETF','Communication','Communication SETF','forfait_global',15000]);
