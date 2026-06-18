@@ -1,0 +1,1 @@
+RD_TASKS.push(['hors','ads','Securite','09:30','18:30',5]);RD_TASKS.push(['hors','ssiap','Chef secu','09:30','18:30',1]);
