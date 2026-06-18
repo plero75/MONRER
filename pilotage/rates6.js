@@ -1,0 +1,1 @@
+RD_RATES.push(['trh','Playground','Logistique','Transport / TRH','forfait_global',5000]);RD_RATES.push(['sign','Playground','Signalétique','Signalétique','forfait_global',4000]);
