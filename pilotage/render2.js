@@ -1,0 +1,1 @@
+function renderPlan(){let b=document.querySelector('#plan tbody');b.innerHTML=RD_TASKS.map((t,i)=>`<tr><td>${RD_TYPES[t[0]]?RD_TYPES[t[0]][0]:'Global'}</td><td>${t[2]}</td><td>${t[3]}-${t[4]}</td><td>${t[5]}</td><td>${D(t)}</td><td class="money">${euro(C(t))}</td></tr>`).join('')}
