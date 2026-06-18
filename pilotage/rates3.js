@@ -1,0 +1,1 @@
+RD_RATES.push(['regie','SETF','SETF','Régisseur','forfait_jour',500]);RD_RATES.push(['elec','SETF','Électricien site','Électricien','forfait_jour',750]);RD_RATES.push(['ads','SETF','Sécurité','Agent de sécurité','horaire',27]);
