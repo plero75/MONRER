@@ -1,0 +1,1 @@
+RD_TASKS.push(['hors','onet','Nettoyage','09:00','19:00',1]);RD_TASKS.push(['montage','roads','Roads montage','08:00','18:00',6,1]);RD_TASKS.push(['montage','roads','Roads demontage','08:00','18:00',6,1]);
